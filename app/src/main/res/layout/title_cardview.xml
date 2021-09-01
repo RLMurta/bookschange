@@ -10,7 +10,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
-        android:text="Lista de Desejos"
+        android:text="Insira Titulo"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
