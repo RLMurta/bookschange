@@ -52,4 +52,7 @@ dependencies {
     def fragment_version = "1.3.6"
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
 
+    //Picasso implementation
+    implementation 'com.squareup.picasso:picasso:2.7.0'
+
 }

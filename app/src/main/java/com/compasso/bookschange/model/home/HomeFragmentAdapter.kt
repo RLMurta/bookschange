@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.compasso.bookschange.R
 
@@ -20,16 +21,31 @@ class HomeFragmentAdapter(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.title_cardview, parent, false)
             )
-        } else {
-            return TitleViewHolder(
+        } else if(viewType == 2) {
+            return BookViewHolder(
                 LayoutInflater.from(parent.context)
-                    .inflate(R.layout.title_cardview, parent, false)
+                    .inflate(R.layout.book_cardview, parent, false)
+            )
+        } else {
+            return AddBookViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.add_book_cardview, parent, false)
             )
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        if(holder is TitleViewHolder) {
+            if(position == 1){
+
+            } else {
+
+            }
+        } else if(holder is BookViewHolder) {
+
+        } else {
+
+        }
     }
 }
 
@@ -40,4 +56,8 @@ class TitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val bookCover: ImageView = itemView.findViewById(R.id.book_cover)
     private val bookTitle: TextView = itemView.findViewById(R.id.book_title)
+}
+
+class AddBookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val addButton: ConstraintLayout = itemView.findViewById(R.id.add_book_constraintlayout)
 }
