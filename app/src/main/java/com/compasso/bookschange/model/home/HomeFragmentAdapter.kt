@@ -20,7 +20,7 @@ class HomeFragmentAdapter(
     private val desiredBooksList: List<BookData>, private val detachmentBooksList: List<BookData>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun getItemCount(): Int = desiredBooksList.size + detachmentBooksList.size
+    override fun getItemCount(): Int = (desiredBooksList.size + detachmentBooksList.size + 4)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if(viewType == TITLE_VIEW_HOLDER) {
@@ -45,10 +45,10 @@ class HomeFragmentAdapter(
         if(holder is TitleViewHolder) {
             holder.setData(position)
         } else if(holder is BookViewHolder) {
-            if(position < desiredBooksList.size + 1) {
+            if(position <= (desiredBooksList.size + 1)) {
                 holder.setData(position, desiredBooksList[position - 2])
             } else {
-                holder.setData(position, detachmentBooksList[position - (desiredBooksList.size - 4)])
+                holder.setData(position, detachmentBooksList[position - (desiredBooksList.size + 4)])
             }
         } else if(holder is AddBookViewHolder) {
             holder.setData(position)
@@ -86,7 +86,7 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val bookTitle: TextView = itemView.findViewById(R.id.book_title)
 
     fun setData(position: Int, booksList: BookData) {
-        Picasso.with(bookCover.context).load(booksList.bookCoverLink).into(bookCover)
+//        Picasso.with(bookCover.context).load(booksList.bookCoverLink).into(bookCover)
         bookTitle.text = booksList.bookTitle
     }
 }
