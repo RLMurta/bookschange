@@ -8,27 +8,19 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.compasso.bookschange.R
-import com.squareup.picasso.Picasso
 
-const val WISHES_LIST_POSITION = 0
-const val FIRST_ADD_BOOK_BUTTON_POSITION = 1
-const val TITLE_VIEW_HOLDER = 2
-const val BOOK_VIEW_HOLDER = 3
-const val ADD_BOOK_VIEW_HOLDER = 4
+const val FIRST_ADD_BOOK_BUTTON_POSITION = 0
+const val BOOK_VIEW_HOLDER = 2
+const val ADD_BOOK_VIEW_HOLDER = 3
 
 class HomeFragmentAdapter(
-    private val desiredBooksList: List<BookData>, private val detachmentBooksList: List<BookData>
+    private val booksList: List<BookData>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun getItemCount(): Int = (desiredBooksList.size + detachmentBooksList.size + 4)
+    override fun getItemCount(): Int = (booksList.size + 1)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if(viewType == TITLE_VIEW_HOLDER) {
-            return TitleViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.title_cardview, parent, false)
-            )
-        } else if(viewType == BOOK_VIEW_HOLDER) {
+        if(viewType == BOOK_VIEW_HOLDER) {
             return BookViewHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.book_cardview, parent, false)
@@ -42,41 +34,18 @@ class HomeFragmentAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is TitleViewHolder) {
-            holder.setData(position)
-        } else if(holder is BookViewHolder) {
-            if(position <= (desiredBooksList.size + 1)) {
-                holder.setData(position, desiredBooksList[position - 2])
-            } else {
-                holder.setData(position, detachmentBooksList[position - (desiredBooksList.size + 4)])
-            }
+        if(holder is BookViewHolder) {
+            holder.setData(position, booksList[position - 1])
         } else if(holder is AddBookViewHolder) {
             holder.setData(position)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(position == WISHES_LIST_POSITION || position == desiredBooksList.size + 2) {
-            return TITLE_VIEW_HOLDER
-        } else if(position == FIRST_ADD_BOOK_BUTTON_POSITION || position == desiredBooksList.size + 3) {
+        if(position == FIRST_ADD_BOOK_BUTTON_POSITION) {
             return ADD_BOOK_VIEW_HOLDER
         } else {
             return BOOK_VIEW_HOLDER
-        }
-    }
-}
-
-class TitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val titleTextView: TextView = itemView.findViewById(R.id.title_text_view)
-
-    fun setData(position: Int) {
-        when(position) {
-            WISHES_LIST_POSITION -> {
-                titleTextView.setText("Lista de Desejos")
-            }
-            else -> {
-                titleTextView.setText("Lista de Desapego")
-            }
         }
     }
 }

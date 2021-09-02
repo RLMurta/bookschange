@@ -26,8 +26,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var a: List<BookData> = listOf<BookData>(BookData("https://www.googleapis.com/books/v1/volumes/AsifDQAAQBAJ", "GUIA DO PROFISSIONAL DO LIVRO"), BookData("https://www.googleapis.com/books/v1/volumes/AsifDQAAQBAJ", "GUIA DO PROFISSIONAL DO LIVRO"))
-        binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
-        binding.recyclerView.adapter = HomeFragmentAdapter(a, a)
+        binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(a)
+        binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(a)
     }
 
 }
