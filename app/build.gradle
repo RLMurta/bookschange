@@ -29,7 +29,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
     buildFeatures{
         viewBinding = true
     }
@@ -53,6 +52,6 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
 
     //Picasso implementation
-    implementation 'com.squareup.picasso:picasso:2.7.0'
+    implementation 'com.squareup.picasso:picasso:2.5.0'
 
 }
