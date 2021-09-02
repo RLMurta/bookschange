@@ -31,5 +31,4 @@ class HomeFragment : Fragment() {
         binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(a)
     }
-
 }
