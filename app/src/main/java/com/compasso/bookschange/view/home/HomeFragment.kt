@@ -26,7 +26,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val a: List<BookData> = listOf<BookData>(BookData("https://www.googleapis.com/books/v1/volumes/AsifDQAAQBAJ", "GUIA DO PROFISSIONAL DO LIVRO"), BookData("https://www.googleapis.com/books/v1/volumes/AsifDQAAQBAJ", "GUIA DO PROFISSIONAL DO LIVRO"))
+        val a: List<BookData> = listOf<BookData>(
+            BookData(
+                "https://www.googleapis.com/books/v1/volumes/AsifDQAAQBAJ",
+                "GUIA DO PROFISSIONAL DO LIVRO"
+            ),
+            BookData(
+                "https://www.googleapis.com/books/v1/volumes/AsifDQAAQBAJ",
+                "GUIA DO PROFISSIONAL DO LIVRO"
+            )
+        )
         binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(a)
         binding.wishlistRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
