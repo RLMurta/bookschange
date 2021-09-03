@@ -4,4 +4,6 @@
     <string name="chat">Conversas</string>
     <string name="map">Mapa</string>
     <string name="profile">Perfil</string>
+    <string name="wishlist">Lista de Desejos</string>
+    <string name="detachment_list">Lista de Desapego</string>
 </resources>

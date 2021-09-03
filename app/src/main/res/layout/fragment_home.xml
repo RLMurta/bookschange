@@ -28,11 +28,11 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/wish_list_text_view"
+                android:id="@+id/wishlist_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
-                android:text="Lista de Desejos"
+                android:text="@string/wishlist"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -43,11 +43,10 @@
                 android:id="@+id/wishlist_recycler_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/wish_list_text_view" />
+                app:layout_constraintTop_toBottomOf="@id/wishlist_text_view" />
 
             <TextView
                 android:id="@+id/detachment_list_text_view"
@@ -55,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="16dp"
-                android:text="Lista de Desapego"
+                android:text="@string/detachment_list"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +66,6 @@
                 android:id="@+id/detachment_recycler_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

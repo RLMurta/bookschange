@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.compasso.bookschange.databinding.FragmentHomeBinding
 import com.compasso.bookschange.model.home.BookData
+import com.compasso.bookschange.model.home.GridSpacingItemDecoration
 import com.compasso.bookschange.model.home.HomeFragmentAdapter
 
 class HomeFragment : Fragment() {
@@ -28,8 +29,11 @@ class HomeFragment : Fragment() {
         val a: List<BookData> = listOf<BookData>(BookData("https://www.googleapis.com/books/v1/volumes/AsifDQAAQBAJ", "GUIA DO PROFISSIONAL DO LIVRO"), BookData("https://www.googleapis.com/books/v1/volumes/AsifDQAAQBAJ", "GUIA DO PROFISSIONAL DO LIVRO"))
         binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(a)
+        binding.wishlistRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
+
         binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(a)
+        binding.detachmentRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
     }
 
 }
