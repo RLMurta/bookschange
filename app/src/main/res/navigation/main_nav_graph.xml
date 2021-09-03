@@ -10,4 +10,9 @@
         android:name="com.compasso.bookschange.view.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.compasso.bookschange.view.maps.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>

@@ -35,5 +35,4 @@ class HomeFragment : Fragment() {
         binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(a)
         binding.detachmentRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
     }
-
 }

@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/map_icon"
+        android:id="@+id/mapsFragment"
         android:icon="@drawable/ic_baseline_map_24"
         android:title="@string/map"
         app:showAsAction="ifRoom" />
