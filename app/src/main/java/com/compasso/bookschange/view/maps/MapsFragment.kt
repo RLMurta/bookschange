@@ -58,7 +58,6 @@ class MapsFragment : Fragment() {
         super.onSaveInstanceState(outState)
     }
 
-
     private val callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
@@ -71,9 +70,14 @@ class MapsFragment : Fragment() {
          */
         this.map = googleMap
 
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val fernando = LatLng(-19.932521, -43.937841)
+        val luiza = LatLng(-19.932236, -43.933806)
+        val frederico = LatLng(-19.9331247, -43.9369624)
+        googleMap.addMarker(MarkerOptions().position(fernando).title("Fernando gostaria de um de seus livros"))
+        googleMap.addMarker(MarkerOptions().position(luiza).title("Luiza tem um livro que você deseja"))
+        googleMap.addMarker(MarkerOptions().position(frederico).title("Frederico tem um ou mais livros que você deseja"))
+
+
 
         // Prompt the user for permission.
         getLocationPermission()
@@ -99,6 +103,27 @@ class MapsFragment : Fragment() {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
         }
+    }
+
+    /**
+     * Handles the result of the request for location permissions.
+     */
+    // [START maps_current_place_on_request_permissions_result]
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>,
+                                            grantResults: IntArray) {
+        locationPermissionGranted = false
+        when (requestCode) {
+            PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationPermissionGranted = true
+                }
+            }
+        }
+        updateLocationUI()
     }
 
     /**
