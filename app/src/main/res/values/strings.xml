@@ -6,4 +6,5 @@
     <string name="profile">Perfil</string>
     <string name="wishlist">Lista de Desejos</string>
     <string name="detachment_list">Lista de Desapego</string>
+    <string name="write_the_name_of_the_desired_book">Digite o nome do livro que deseja buscar</string>
 </resources>

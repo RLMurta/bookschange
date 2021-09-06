@@ -9,10 +9,19 @@
         android:id="@+id/homeFragment"
         android:name="com.compasso.bookschange.view.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_bookSearchActivity"
+            app:destination="@id/bookSearchActivity" />
+    </fragment>
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.compasso.bookschange.view.maps.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
+    <activity
+        android:id="@+id/bookSearchActivity"
+        android:name="com.compasso.bookschange.view.home.BookSearchActivity"
+        android:label="activity_book_search"
+        tools:layout="@layout/activity_book_search" />
 </navigation>

@@ -14,7 +14,7 @@ const val BOOK_VIEW_HOLDER = 2
 const val ADD_BOOK_VIEW_HOLDER = 3
 
 class HomeFragmentAdapter(
-    private val booksList: List<BookData>
+    private val booksList: List<BookData>, private val buttons: Buttons
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int = (booksList.size + 1)
@@ -39,6 +39,9 @@ class HomeFragmentAdapter(
         } else if(holder is AddBookViewHolder) {
             holder.setData(position)
         }
+        holder.itemView.setOnClickListener{
+            buttons.onButtonClicked(position)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -47,6 +50,10 @@ class HomeFragmentAdapter(
         } else {
             return BOOK_VIEW_HOLDER
         }
+    }
+
+    interface Buttons{
+        fun onButtonClicked(position: Int)
     }
 }
 
