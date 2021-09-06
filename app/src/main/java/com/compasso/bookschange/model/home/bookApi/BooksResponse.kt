@@ -1,4 +1,4 @@
-package com.compasso.bookschange.model.home.BookApi
+package com.compasso.bookschange.model.home.bookApi
 
 data class BooksResponse(
     val title: String,

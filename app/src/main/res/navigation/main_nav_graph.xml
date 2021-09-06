@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_maps" />
     <activity
         android:id="@+id/bookSearchActivity"
-        android:name="com.compasso.bookschange.view.home.BookSearchActivity"
+        android:name="com.compasso.bookschange.view.home.bookSearch.BookSearchActivity"
         android:label="activity_book_search"
         tools:layout="@layout/activity_book_search" />
 </navigation>

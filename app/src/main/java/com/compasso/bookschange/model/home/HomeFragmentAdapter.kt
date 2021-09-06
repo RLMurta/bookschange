@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.compasso.bookschange.R
+import com.squareup.picasso.Picasso
 
 const val FIRST_ADD_BOOK_BUTTON_POSITION = 0
 const val BOOK_VIEW_HOLDER = 2
@@ -20,7 +21,7 @@ class HomeFragmentAdapter(
     override fun getItemCount(): Int = (booksList.size + 1)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if(viewType == BOOK_VIEW_HOLDER) {
+        if (viewType == BOOK_VIEW_HOLDER) {
             return BookViewHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.book_cardview, parent, false)
@@ -34,25 +35,25 @@ class HomeFragmentAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is BookViewHolder) {
+        if (holder is BookViewHolder) {
             holder.setData(position, booksList[position - 1])
-        } else if(holder is AddBookViewHolder) {
+        } else if (holder is AddBookViewHolder) {
             holder.setData(position)
         }
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             buttons.onButtonClicked(position)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(position == FIRST_ADD_BOOK_BUTTON_POSITION) {
+        if (position == FIRST_ADD_BOOK_BUTTON_POSITION) {
             return ADD_BOOK_VIEW_HOLDER
         } else {
             return BOOK_VIEW_HOLDER
         }
     }
 
-    interface Buttons{
+    interface Buttons {
         fun onButtonClicked(position: Int)
     }
 }
@@ -61,9 +62,14 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val bookCover: ImageView = itemView.findViewById(R.id.book_cover)
     private val bookTitle: TextView = itemView.findViewById(R.id.book_title)
 
-    fun setData(position: Int, booksList: BookData) {
-//        Picasso.with(bookCover.context).load(booksList.bookCoverLink).into(bookCover)
-        bookTitle.text = booksList.bookTitle
+    fun setData(position: Int, book: BookData) {
+        Picasso
+            .with(bookCover.context)
+            .load(book.bookCoverLink)
+            .placeholder(R.drawable.mock_image)
+            .resize(100, 133)
+            .into(bookCover)
+        bookTitle.text = book.bookTitle
     }
 }
 

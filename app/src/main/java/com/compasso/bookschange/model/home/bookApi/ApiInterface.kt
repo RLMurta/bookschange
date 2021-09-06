@@ -1,4 +1,4 @@
-package com.compasso.bookschange.model.home.BookApi
+package com.compasso.bookschange.model.home.bookApi
 
 import retrofit2.Response
 import retrofit2.Retrofit

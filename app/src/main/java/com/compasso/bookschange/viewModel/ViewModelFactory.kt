@@ -3,8 +3,8 @@ package com.compasso.bookschange.viewModel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.compasso.bookschange.model.home.BookApi.ApiInterface
-import com.compasso.bookschange.model.home.BookApi.BooksRepository
+import com.compasso.bookschange.model.home.bookApi.ApiInterface
+import com.compasso.bookschange.model.home.bookApi.BooksRepository
 import com.compasso.bookschange.viewModel.home.HomeViewModel
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {

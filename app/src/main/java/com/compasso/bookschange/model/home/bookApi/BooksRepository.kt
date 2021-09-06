@@ -1,4 +1,4 @@
-package com.compasso.bookschange.model.home.BookApi
+package com.compasso.bookschange.model.home.bookApi
 
 class BooksRepository (private val api: ApiInterface){
     suspend fun fetch(searchTerms: String) : List<BooksResponse> {

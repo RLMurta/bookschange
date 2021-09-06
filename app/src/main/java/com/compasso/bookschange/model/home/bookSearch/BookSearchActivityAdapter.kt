@@ -1,4 +1,4 @@
-package com.compasso.bookschange.model.home.BookSearch
+package com.compasso.bookschange.model.home.bookSearch
 
 import com.compasso.bookschange.model.home.BookData
 
