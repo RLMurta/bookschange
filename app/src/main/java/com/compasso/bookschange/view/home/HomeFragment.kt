@@ -9,9 +9,9 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.compasso.bookschange.R
 import com.compasso.bookschange.databinding.FragmentHomeBinding
-import com.compasso.bookschange.model.home.BookData
 import com.compasso.bookschange.model.home.GridSpacingItemDecoration
 import com.compasso.bookschange.model.home.HomeFragmentAdapter
+import com.compasso.bookschange.model.home.bookApi.BooksResponse
 
 class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     private var _binding: FragmentHomeBinding? = null
@@ -34,20 +34,10 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val a: List<BookData> = listOf<BookData>(
-            BookData(
-                "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg",
-                "GUIA DO PROFISSIONAL DO LIVRO"
-            ),
-            BookData(
-                "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg",
-                "GUIA DO PROFISSIONAL DO LIVRO"
-            ),
-            BookData(
-                "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg",
-                "GUIA DO PROFISSIONAL DO LIVRO"
-            )
+        val a: List<BooksResponse> = listOf<BooksResponse>(
+            BooksResponse("Titulo de teste", BooksResponse.ImageLink("https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg", "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg"))
         )
+
         binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(a, this)
         binding.wishlistRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))

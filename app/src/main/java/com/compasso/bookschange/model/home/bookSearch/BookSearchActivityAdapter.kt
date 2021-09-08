@@ -1,7 +1,5 @@
 package com.compasso.bookschange.model.home.bookSearch
 
-import com.compasso.bookschange.model.home.BookData
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.compasso.bookschange.R
+import com.compasso.bookschange.model.home.bookApi.BooksResponse
 
 const val BOOK_VIEW_HOLDER = 1
 
 class BookSearchActivityAdapter(
-    private val booksList: List<BookData>
+    private val booksList: List<BooksResponse>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int = booksList.size
@@ -40,8 +39,7 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val bookCover: ImageView = itemView.findViewById(R.id.book_cover)
     private val bookTitle: TextView = itemView.findViewById(R.id.book_title)
 
-    fun setData(position: Int, booksList: BookData) {
-//        Picasso.with(bookCover.context).load(booksList.bookCoverLink).into(bookCover)
-        bookTitle.text = booksList.bookTitle
+    fun setData(position: Int, books: BooksResponse) {
+        bookTitle.text = books.title
     }
 }

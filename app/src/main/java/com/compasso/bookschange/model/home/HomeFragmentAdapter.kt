@@ -9,13 +9,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.compasso.bookschange.R
+import com.compasso.bookschange.model.home.bookApi.BooksResponse
 
 const val FIRST_ADD_BOOK_BUTTON_POSITION = 0
 const val BOOK_VIEW_HOLDER = 2
 const val ADD_BOOK_VIEW_HOLDER = 3
 
 class HomeFragmentAdapter(
-    private val booksList: List<BookData>, private val buttons: Buttons
+    private val booksList: List<BooksResponse>, private val buttons: Buttons
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int = (booksList.size + 1)
@@ -62,14 +63,14 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val bookCover: ImageView = itemView.findViewById(R.id.book_cover)
     private val bookTitle: TextView = itemView.findViewById(R.id.book_title)
 
-    fun setData(book: BookData) {
+    fun setData(book: BooksResponse) {
         Glide.with(bookCover.context)
-            .load(book.bookCoverLink)
+            .load(book.imageLinks.smallThumbnail)
             .centerCrop()
             .placeholder(R.drawable.mock_image)
             .into(bookCover)
 
-        bookTitle.text = book.bookTitle
+        bookTitle.text = book.title
     }
 }
 
