@@ -11,17 +11,17 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_bookSearchActivity"
-            app:destination="@id/bookSearchActivity" />
+            android:id="@+id/action_homeFragment_to_bookSearchFragment"
+            app:destination="@id/bookSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.compasso.bookschange.view.maps.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
-    <activity
-        android:id="@+id/bookSearchActivity"
-        android:name="com.compasso.bookschange.view.home.bookSearch.BookSearchActivity"
-        android:label="activity_book_search"
-        tools:layout="@layout/activity_book_search" />
+    <fragment
+        android:id="@+id/bookSearchFragment"
+        android:name="com.compasso.bookschange.view.home.bookSearch.BookSearchFragment"
+        android:label="fragment_book_search"
+        tools:layout="@layout/fragment_book_search" />
 </navigation>

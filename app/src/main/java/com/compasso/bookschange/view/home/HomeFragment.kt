@@ -27,7 +27,7 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
 
     override fun onButtonClicked(position: Int) {
         if(position == 0){
-            view?.findNavController()?.navigate(R.id.action_homeFragment_to_bookSearchActivity)
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_bookSearchFragment)
         }
     }
 
@@ -36,11 +36,15 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
 
         val a: List<BookData> = listOf<BookData>(
             BookData(
-                "http://books.google.com/books/publisher/content?id=AsifDQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72jWYzD3S-wouaFhvF_Pu3oyVKU0Ixha94h9yaZ7CKzFJ3qWvYPME8yvD8xjmPmxxaolzfF1fszRystTxt1vwdehmsj9ixYJgSsDNb9r0Kqrw0GuZD_UzWcletONQi3sE_Ogloe&source=gbs_api",
+                "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg",
                 "GUIA DO PROFISSIONAL DO LIVRO"
             ),
             BookData(
-                "http://books.google.com/books/publisher/content?id=AsifDQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72jWYzD3S-wouaFhvF_Pu3oyVKU0Ixha94h9yaZ7CKzFJ3qWvYPME8yvD8xjmPmxxaolzfF1fszRystTxt1vwdehmsj9ixYJgSsDNb9r0Kqrw0GuZD_UzWcletONQi3sE_Ogloe&source=gbs_api",
+                "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg",
+                "GUIA DO PROFISSIONAL DO LIVRO"
+            ),
+            BookData(
+                "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg",
                 "GUIA DO PROFISSIONAL DO LIVRO"
             )
         )
