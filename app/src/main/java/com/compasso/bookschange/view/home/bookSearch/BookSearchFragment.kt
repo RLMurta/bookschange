@@ -1,6 +1,7 @@
 package com.compasso.bookschange.view.home.bookSearch
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +10,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.compasso.bookschange.databinding.FragmentBookSearchBinding
 import com.compasso.bookschange.model.home.GridSpacingItemDecoration
+import com.compasso.bookschange.model.home.bookApi.BooksResponse
 import com.compasso.bookschange.model.home.bookSearch.BookSearchActivityAdapter
 import com.compasso.bookschange.viewModel.ViewModelFactory
 import com.compasso.bookschange.viewModel.home.bookSearch.BookSearchViewModel
 
-class BookSearchFragment : Fragment() {
+class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
 
     private var _binding: FragmentBookSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: BookSearchViewModel
+    private lateinit var booksList : List<BooksResponse>
+    private lateinit var myBooksList : MutableList<BooksResponse>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +29,10 @@ class BookSearchFragment : Fragment() {
     ): View? {
         _binding = FragmentBookSearchBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onButtonClicked(position: Int) {
+        Log.i("TAG", "onButtonClicked: " + booksList[position].volumeInfo.title)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,8 +46,9 @@ class BookSearchFragment : Fragment() {
         setButtons()
 
         viewModel.booksList.observe(viewLifecycleOwner, { list ->
+            booksList = list
             binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
-            binding.recyclerView.adapter = BookSearchActivityAdapter(list)
+            binding.recyclerView.adapter = BookSearchActivityAdapter(list, this)
             binding.recyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
         })
 

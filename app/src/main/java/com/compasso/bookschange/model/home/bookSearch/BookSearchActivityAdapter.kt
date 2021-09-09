@@ -8,12 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.compasso.bookschange.R
+import com.compasso.bookschange.model.home.HomeFragmentAdapter
 import com.compasso.bookschange.model.home.bookApi.BooksResponse
 
 const val BOOK_VIEW_HOLDER = 1
 
 class BookSearchActivityAdapter(
-    private val booksList: List<BooksResponse>
+    private val booksList: List<BooksResponse>, private val buttons: Buttons
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int = booksList.size
@@ -29,10 +30,17 @@ class BookSearchActivityAdapter(
         if (holder is BookViewHolder) {
             holder.setData(booksList[position])
         }
+        holder.itemView.setOnClickListener {
+            buttons.onButtonClicked(position)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
         return BOOK_VIEW_HOLDER
+    }
+
+    interface Buttons {
+        fun onButtonClicked(position: Int)
     }
 }
 

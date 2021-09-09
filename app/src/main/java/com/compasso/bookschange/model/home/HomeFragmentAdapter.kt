@@ -64,11 +64,18 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val bookTitle: TextView = itemView.findViewById(R.id.book_title)
 
     fun setData(book: BooksResponse) {
-        Glide.with(bookCover.context)
-            .load(book.volumeInfo.imageLinks.smallThumbnail)
-            .centerCrop()
-            .placeholder(R.drawable.mock_image)
-            .into(bookCover)
+        try {
+            Glide.with(bookCover.context)
+                .load(book.volumeInfo.imageLinks.thumbnail)
+                .centerCrop()
+                .placeholder(R.drawable.mock_image)
+                .into(bookCover)
+        } catch (e: NullPointerException) {
+            Glide.with(bookCover.context)
+                .load(R.drawable.mock_image)
+                .centerCrop()
+                .into(bookCover)
+        }
 
         bookTitle.text = book.volumeInfo.title
     }
