@@ -1,7 +1,7 @@
 package com.compasso.bookschange.model.home.bookApi
 
 class BooksRepository (private val api: ApiInterface){
-    suspend fun fetch(searchTerms: String) : List<BooksResponse> {
+    suspend fun fetch(searchTerms: String) : BookListResponse {
         val response = api.fetch(searchTerms)
         if(response.isSuccessful){
             return response.body()!!

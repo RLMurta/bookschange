@@ -65,12 +65,12 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun setData(book: BooksResponse) {
         Glide.with(bookCover.context)
-            .load(book.imageLinks.smallThumbnail)
+            .load(book.volumeInfo.imageLinks.smallThumbnail)
             .centerCrop()
             .placeholder(R.drawable.mock_image)
             .into(bookCover)
 
-        bookTitle.text = book.title
+        bookTitle.text = book.volumeInfo.title
     }
 }
 

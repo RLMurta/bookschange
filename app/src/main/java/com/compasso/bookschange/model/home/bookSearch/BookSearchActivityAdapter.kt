@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.compasso.bookschange.R
 import com.compasso.bookschange.model.home.bookApi.BooksResponse
 
@@ -39,7 +40,20 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val bookCover: ImageView = itemView.findViewById(R.id.book_cover)
     private val bookTitle: TextView = itemView.findViewById(R.id.book_title)
 
-    fun setData(position: Int, books: BooksResponse) {
-        bookTitle.text = books.title
+    fun setData(position: Int, book: BooksResponse) {
+        if(!book.volumeInfo.imageLinks.smallThumbnail.isNullOrBlank()){
+            Glide.with(bookCover.context)
+                .load(book.volumeInfo.imageLinks.smallThumbnail)
+                .centerCrop()
+                .placeholder(R.drawable.mock_image)
+                .into(bookCover)
+        } else {
+            Glide.with(bookCover.context)
+                .load(R.drawable.mock_image)
+                .centerCrop()
+                .into(bookCover)
+        }
+
+        bookTitle.text = book.volumeInfo.title
     }
 }

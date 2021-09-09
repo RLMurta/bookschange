@@ -35,7 +35,7 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
         super.onViewCreated(view, savedInstanceState)
 
         val a: List<BooksResponse> = listOf<BooksResponse>(
-            BooksResponse("Titulo de teste", BooksResponse.ImageLink("https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg", "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg"))
+            BooksResponse(BooksResponse.VolumeInfo("Titulo de teste", BooksResponse.ImageLink("https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg", "https://www.des1gnon.com/wp-content/uploads/2018/04/Des1gnON-20-Referencia-de-Design-de-Capa-de-Livro-18.jpg")))
         )
 
         binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)

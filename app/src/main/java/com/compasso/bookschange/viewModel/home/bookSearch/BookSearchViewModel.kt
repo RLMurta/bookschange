@@ -15,12 +15,16 @@ class BookSearchViewModel(private val repository: BooksRepository) : ViewModel()
     val error: LiveData<String> = _error
     private val _booksList = MutableLiveData<List<BooksResponse>>()
     val booksList: LiveData<List<BooksResponse>> = _booksList
+    private val _success = MutableLiveData<Unit>()
+    val success: LiveData<Unit> = _success
     private var searchTerms: String? = null
 
     fun fetchBooks() {
         viewModelScope.launch {
             try {
-                val booksResponse = repository.fetch(searchTerms!!)
+                val response = repository.fetch(searchTerms!!)
+                _booksList.postValue(response.items)
+                _success.postValue(Unit)
             } catch (e: BookNotFoundException) {
                 _error.postValue("Livro não encontrado")
             } catch (e: Exception) {
@@ -39,7 +43,7 @@ class BookSearchViewModel(private val repository: BooksRepository) : ViewModel()
     }
 
     fun onConfirmButtonClicked(searchTerms: String) {
-        if(setSearchTerms(searchTerms)) {
+        if(!setSearchTerms(searchTerms)) {
             fetchBooks()
         }
     }
