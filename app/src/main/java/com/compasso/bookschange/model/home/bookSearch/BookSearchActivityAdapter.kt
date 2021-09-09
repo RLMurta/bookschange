@@ -27,7 +27,7 @@ class BookSearchActivityAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BookViewHolder) {
-            holder.setData(position, booksList[position])
+            holder.setData(booksList[position])
         }
     }
 
@@ -40,14 +40,14 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val bookCover: ImageView = itemView.findViewById(R.id.book_cover)
     private val bookTitle: TextView = itemView.findViewById(R.id.book_title)
 
-    fun setData(position: Int, book: BooksResponse) {
-        if(!book.volumeInfo.imageLinks.smallThumbnail.isNullOrBlank()){
+    fun setData(book: BooksResponse) {
+        try {
             Glide.with(bookCover.context)
-                .load(book.volumeInfo.imageLinks.smallThumbnail)
+                .load(book.volumeInfo.imageLinks.thumbnail)
                 .centerCrop()
                 .placeholder(R.drawable.mock_image)
                 .into(bookCover)
-        } else {
+        } catch (e: NullPointerException) {
             Glide.with(bookCover.context)
                 .load(R.drawable.mock_image)
                 .centerCrop()
