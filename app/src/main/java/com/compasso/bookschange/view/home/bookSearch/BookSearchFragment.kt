@@ -7,21 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.room.Room
 import com.compasso.bookschange.databinding.FragmentBookSearchBinding
 import com.compasso.bookschange.model.home.GridSpacingItemDecoration
 import com.compasso.bookschange.model.home.bookApi.BooksResponse
 import com.compasso.bookschange.model.home.bookSearch.BookSearchActivityAdapter
+import com.compasso.bookschange.model.room.AppDatabase
+import com.compasso.bookschange.model.room.Book
 import com.compasso.bookschange.viewModel.ViewModelFactory
 import com.compasso.bookschange.viewModel.home.bookSearch.BookSearchViewModel
+import kotlinx.coroutines.launch
 
 class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
 
     private var _binding: FragmentBookSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: BookSearchViewModel
-    private lateinit var booksList : List<BooksResponse>
-    private lateinit var myBooksList : MutableList<BooksResponse>
+    private lateinit var booksList: List<BooksResponse>
+    private lateinit var db: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +38,15 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
 
     override fun onButtonClicked(position: Int) {
         Log.i("TAG", "onButtonClicked: " + booksList[position].volumeInfo.title)
+
+        lifecycleScope.launch {
+            db.booksDao().insertAll(
+                Book(
+                    booksList[position].volumeInfo.title,
+                    booksList[position].volumeInfo.imageLinks.thumbnail
+                )
+            )
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,6 +58,11 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
         ).get(BookSearchViewModel::class.java)
 
         setButtons()
+
+        db = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java, "books_database"
+        ).build()
 
         viewModel.booksList.observe(viewLifecycleOwner, { list ->
             booksList = list
@@ -69,7 +88,7 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
             requireActivity().onBackPressed()
         }
 
-        binding.confirmFloatingActionButton.setOnClickListener{
+        binding.confirmFloatingActionButton.setOnClickListener {
             viewModel.onConfirmButtonClicked(binding.editText.text.toString())
         }
     }
