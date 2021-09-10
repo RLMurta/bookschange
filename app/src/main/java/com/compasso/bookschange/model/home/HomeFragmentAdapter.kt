@@ -37,7 +37,9 @@ class HomeFragmentAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BookViewHolder) {
-            holder.setData(booksList[position - 1])
+            if(booksList.size > 0){
+                holder.setData(booksList[position - 1])
+            }
         } else if (holder is AddBookViewHolder) {
             holder.setData(position)
         }
