@@ -38,10 +38,23 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
         return binding.root
     }
 
-    override fun onButtonClicked(position: Int) {
-        if (position == 0) {
-            view?.findNavController()?.navigate(R.id.action_homeFragment_to_bookSearchFragment)
-        }
+    override fun onResume() {
+        super.onResume()
+        binding.wishlistRecyclerView.addItemDecoration(
+            GridSpacingItemDecoration(
+                3,
+                50,
+                true
+            )
+        )
+
+        binding.detachmentRecyclerView.addItemDecoration(
+            GridSpacingItemDecoration(
+                3,
+                50,
+                true
+            )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,17 +86,33 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
         })
     }
 
+    override fun onButtonClicked(position: Int, option: Int) {
+        if (position == 0) {
+            val databaseName: String
+            when (option) {
+                0 -> {
+                    databaseName = "whishlist_books_database"
+                }
+                else -> {
+                    databaseName = "detachment_books_database"
+                }
+            }
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToBookSearchFragment(databaseName)
+            view?.findNavController()?.navigate(action)
+        }
+    }
+
+
     private fun bindingRecyclerViewAtributes(books: List<Book>, option: Int) {
-        when(option) {
+        when (option) {
             0 -> {
                 binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
-                binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(books, this)
-                binding.wishlistRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
+                binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(books, this, 0)
             }
             1 -> {
                 binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
-                binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(books, this)
-                binding.detachmentRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
+                binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(books, this, 1)
             }
         }
     }

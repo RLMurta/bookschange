@@ -1,13 +1,13 @@
 package com.compasso.bookschange.view.home.bookSearch
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.room.Room
 import com.compasso.bookschange.databinding.FragmentBookSearchBinding
@@ -27,6 +27,7 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
     private lateinit var viewModel: BookSearchViewModel
     private lateinit var booksList: List<BooksResponse>
     private lateinit var db: AppDatabase
+    val args: BookSearchFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,15 +38,22 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
     }
 
     override fun onButtonClicked(position: Int) {
-        Log.i("TAG", "onButtonClicked: " + booksList[position].volumeInfo.title)
-
         lifecycleScope.launch {
-            db.booksDao().insertAll(
-                Book(
-                    booksList[position].volumeInfo.title,
-                    booksList[position].volumeInfo.imageLinks.thumbnail
+            try {
+                db.booksDao().insertAll(
+                    Book(
+                        booksList[position].volumeInfo.title,
+                        booksList[position].volumeInfo.imageLinks.thumbnail
+                    )
                 )
-            )
+            } catch (e: NullPointerException) {
+                db.booksDao().insertAll(
+                    Book(
+                        booksList[position].volumeInfo.title,
+                        null
+                    )
+                )
+            }
         }
     }
 
@@ -61,7 +69,7 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
 
         db = Room.databaseBuilder(
             requireContext(),
-            AppDatabase::class.java, "whishlist_books_database"
+            AppDatabase::class.java, args.receiveDatabaseName
         ).build()
 
         viewModel.booksList.observe(viewLifecycleOwner, { list ->
