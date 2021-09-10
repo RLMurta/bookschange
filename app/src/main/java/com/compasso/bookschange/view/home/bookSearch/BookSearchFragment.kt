@@ -61,7 +61,7 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
 
         db = Room.databaseBuilder(
             requireContext(),
-            AppDatabase::class.java, "books_database"
+            AppDatabase::class.java, "whishlist_books_database"
         ).build()
 
         viewModel.booksList.observe(viewLifecycleOwner, { list ->

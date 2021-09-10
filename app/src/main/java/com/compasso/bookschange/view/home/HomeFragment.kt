@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,12 +17,17 @@ import com.compasso.bookschange.model.home.HomeFragmentAdapter
 import com.compasso.bookschange.model.home.bookApi.BooksResponse
 import com.compasso.bookschange.model.room.AppDatabase
 import com.compasso.bookschange.model.room.Book
+import com.compasso.bookschange.viewModel.ViewModelFactory
+import com.compasso.bookschange.viewModel.home.HomeViewModel
+import com.compasso.bookschange.viewModel.home.bookSearch.BookSearchViewModel
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var db: AppDatabase
+    private lateinit var viewModel: HomeViewModel
+    private lateinit var wishListDb: AppDatabase
+    private lateinit var detachmentListDb: AppDatabase
 
 
     override fun onCreateView(
@@ -41,26 +47,44 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        db = Room.databaseBuilder(
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(requireContext())
+        ).get(HomeViewModel::class.java)
+
+        wishListDb = Room.databaseBuilder(
             requireContext(),
-            AppDatabase::class.java, "books_database"
+            AppDatabase::class.java, "whishlist_books_database"
+        ).build()
+        detachmentListDb = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java, "detachment_books_database"
         ).build()
 
-        var a: List<Book>
+        viewModel.fetchMyBooks(wishListDb, 0)
+        viewModel.fetchMyBooks(detachmentListDb, 1)
 
-        lifecycleScope.launch {
-            a = db.booksDao().getAll()
-            bindingRecyclerViewAtributes(a)
-        }
+        viewModel.myBookWhishlist.observe(viewLifecycleOwner, { books ->
+            bindingRecyclerViewAtributes(books, 0)
+        })
+
+        viewModel.myBookDetachmentlist.observe(viewLifecycleOwner, { books ->
+            bindingRecyclerViewAtributes(books, 1)
+        })
     }
 
-    private fun bindingRecyclerViewAtributes(a: List<Book>) {
-        binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
-        binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(a, this)
-        binding.wishlistRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
-
-        binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
-        binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(a, this)
-        binding.detachmentRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
+    private fun bindingRecyclerViewAtributes(books: List<Book>, option: Int) {
+        when(option) {
+            0 -> {
+                binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
+                binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(books, this)
+                binding.wishlistRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
+            }
+            1 -> {
+                binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
+                binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(books, this)
+                binding.detachmentRecyclerView.addItemDecoration(GridSpacingItemDecoration(3, 50, true))
+            }
+        }
     }
 }
