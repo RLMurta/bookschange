@@ -116,10 +116,22 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
         })
     }
 
+    private fun bindingRecyclerViewAtributes(books: List<Book>, option: Int) {
+        when (option) {
+            0 -> {
+                binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
+                binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(books, this, WISHLIST_OPTION)
+            }
+            1 -> {
+                binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
+                binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(books, this, DETACHMENT_LIST_OPTION)
+            }
+        }
+    }
 
-    override fun onButtonClicked(option: Int) {
+    override fun onButtonClicked(listOption: Int) {
             val databaseName: String
-            when (option) {
+            when (listOption) {
                 0 -> {
                     databaseName = WISHLIST_DATABASE
                 }
@@ -130,18 +142,5 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
             val action =
                 HomeFragmentDirections.actionHomeFragmentToBookSearchFragment(databaseName)
             view?.findNavController()?.navigate(action)
-    }
-
-    private fun bindingRecyclerViewAtributes(books: List<Book>, option: Int) {
-        when (option) {
-            0 -> {
-                binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
-                binding.wishlistRecyclerView.adapter = HomeFragmentAdapter(books, this, 0)
-            }
-            1 -> {
-                binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
-                binding.detachmentRecyclerView.adapter = HomeFragmentAdapter(books, this, 1)
-            }
-        }
     }
 }
