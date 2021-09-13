@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.compasso.bookschange.model.home.bookApi.BookNotFoundException
 import com.compasso.bookschange.model.home.bookApi.BooksRepository
 import com.compasso.bookschange.model.home.bookApi.BooksResponse
+import com.compasso.bookschange.model.room.AppDatabase
+import com.compasso.bookschange.model.room.Book
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class BookSearchViewModel(private val repository: BooksRepository) : ViewModel() {
+class BookSearchViewModel(private val repository: BooksRepository, private val db: AppDatabase) :
+    ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
     private val _booksList = MutableLiveData<List<BooksResponse>>()
@@ -33,8 +36,8 @@ class BookSearchViewModel(private val repository: BooksRepository) : ViewModel()
         }
     }
 
-    private fun setSearchTerms (searchTerms: String): Boolean {
-        if(searchTerms.isNullOrBlank()) {
+    private fun setSearchTerms(searchTerms: String): Boolean {
+        if (searchTerms.isNullOrBlank()) {
             _error.postValue("Favor digitar o nome de um livro antes de buscar")
         } else {
             this.searchTerms = searchTerms
@@ -43,8 +46,19 @@ class BookSearchViewModel(private val repository: BooksRepository) : ViewModel()
     }
 
     fun onConfirmButtonClicked(searchTerms: String) {
-        if(!setSearchTerms(searchTerms)) {
+        if (!setSearchTerms(searchTerms)) {
             fetchBooks()
+        }
+    }
+
+    fun insertBookIntoDb(title: String, thumbnailLink: String?) {
+        var book: Book
+        viewModelScope.launch {
+            book = Book(
+                title,
+                thumbnailLink
+            )
+            db.booksDao().insertAll(book)
         }
     }
 }

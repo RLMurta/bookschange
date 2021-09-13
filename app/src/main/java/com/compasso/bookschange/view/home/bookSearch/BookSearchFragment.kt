@@ -1,27 +1,32 @@
 package com.compasso.bookschange.view.home.bookSearch
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.room.Room
 import com.compasso.bookschange.databinding.FragmentBookSearchBinding
 import com.compasso.bookschange.model.home.GridSpacingItemDecoration
 import com.compasso.bookschange.model.home.bookApi.BooksResponse
 import com.compasso.bookschange.model.home.bookSearch.BookSearchActivityAdapter
+import com.compasso.bookschange.model.room.AppDatabase
+import com.compasso.bookschange.model.room.Book
 import com.compasso.bookschange.viewModel.ViewModelFactory
 import com.compasso.bookschange.viewModel.home.bookSearch.BookSearchViewModel
+import kotlinx.coroutines.launch
 
 class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
 
     private var _binding: FragmentBookSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: BookSearchViewModel
-    private lateinit var booksList : List<BooksResponse>
-    private lateinit var myBooksList : MutableList<BooksResponse>
+    private lateinit var booksList: List<BooksResponse>
+    val args: BookSearchFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,16 +36,12 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
         return binding.root
     }
 
-    override fun onButtonClicked(position: Int) {
-        Log.i("TAG", "onButtonClicked: " + booksList[position].volumeInfo.title)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory(requireContext())
+            ViewModelFactory(requireContext(), args.receiveDatabaseName)
         ).get(BookSearchViewModel::class.java)
 
         setButtons()
@@ -69,8 +70,23 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
             requireActivity().onBackPressed()
         }
 
-        binding.confirmFloatingActionButton.setOnClickListener{
+        binding.confirmFloatingActionButton.setOnClickListener {
             viewModel.onConfirmButtonClicked(binding.editText.text.toString())
         }
+    }
+
+    override fun onButtonClicked(position: Int) {
+        var thumbnailLink: String?
+        try {
+            thumbnailLink = booksList[position].volumeInfo.imageLinks.thumbnail
+        } catch (e: NullPointerException) {
+            thumbnailLink = null
+        }
+        viewModel.insertBookIntoDb(
+            booksList[position].volumeInfo.title,
+            thumbnailLink
+        )
+
+        requireActivity().onBackPressed()
     }
 }

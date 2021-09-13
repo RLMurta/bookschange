@@ -23,5 +23,9 @@
         android:id="@+id/bookSearchFragment"
         android:name="com.compasso.bookschange.view.home.bookSearch.BookSearchFragment"
         android:label="fragment_book_search"
-        tools:layout="@layout/fragment_book_search" />
+        tools:layout="@layout/fragment_book_search" >
+        <argument
+            android:name="receive_database_name"
+            app:argType="string" />
+    </fragment>
 </navigation>
