@@ -55,6 +55,7 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
                 )
             }
         }
+        requireActivity().onBackPressed()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
