@@ -21,9 +21,12 @@ class BookSearchViewModel(private val repository: BooksRepository, private val d
     private val _success = MutableLiveData<Unit>()
     val success: LiveData<Unit> = _success
     private var searchTerms: String? = null
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> = _loading
 
     fun fetchBooks() {
         viewModelScope.launch {
+            _loading.postValue(true)
             try {
                 val response = repository.fetch(searchTerms!!)
                 _booksList.postValue(response.items)
@@ -33,6 +36,7 @@ class BookSearchViewModel(private val repository: BooksRepository, private val d
             } catch (e: Exception) {
                 _error.postValue("Ocorreu um erro")
             }
+            _loading.postValue(false)
         }
     }
 

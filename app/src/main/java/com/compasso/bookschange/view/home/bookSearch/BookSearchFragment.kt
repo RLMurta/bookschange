@@ -16,6 +16,7 @@ import com.compasso.bookschange.model.home.bookApi.BooksResponse
 import com.compasso.bookschange.model.home.bookSearch.BookSearchActivityAdapter
 import com.compasso.bookschange.model.room.AppDatabase
 import com.compasso.bookschange.model.room.Book
+import com.compasso.bookschange.viewModel.LoadingDialog
 import com.compasso.bookschange.viewModel.ViewModelFactory
 import com.compasso.bookschange.viewModel.home.bookSearch.BookSearchViewModel
 import kotlinx.coroutines.launch
@@ -27,6 +28,7 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
     private lateinit var viewModel: BookSearchViewModel
     private lateinit var booksList: List<BooksResponse>
     val args: BookSearchFragmentArgs by navArgs()
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,14 +40,17 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        loadingDialog = LoadingDialog()
         viewModel = ViewModelProvider(
             this,
             ViewModelFactory(requireContext(), args.receiveDatabaseName)
         ).get(BookSearchViewModel::class.java)
 
         setButtons()
+        observatory()
+    }
 
+    private fun observatory() {
         viewModel.booksList.observe(viewLifecycleOwner, { list ->
             booksList = list
             binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -62,6 +67,14 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
             binding.confirmFloatingActionButton.visibility = View.GONE
             binding.textView.text = "Escolha o livro desejado"
             binding.recyclerView.visibility = View.VISIBLE
+        })
+
+        viewModel.loading.observe(viewLifecycleOwner, { isLoading ->
+            if (isLoading) {
+                loadingDialog.startLoadingDialog(requireActivity())
+            } else {
+                loadingDialog.dismissDialog()
+            }
         })
     }
 

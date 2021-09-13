@@ -75,7 +75,6 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 .centerCrop()
                 .into(bookCover)
         }
-
         bookTitle.text = book.title
     }
 }
