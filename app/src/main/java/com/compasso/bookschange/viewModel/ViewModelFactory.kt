@@ -3,12 +3,16 @@ package com.compasso.bookschange.viewModel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import com.compasso.bookschange.model.home.bookApi.ApiInterface
 import com.compasso.bookschange.model.home.bookApi.BooksRepository
+import com.compasso.bookschange.model.room.AppDatabase
 import com.compasso.bookschange.viewModel.home.HomeViewModel
 import com.compasso.bookschange.viewModel.home.bookSearch.BookSearchViewModel
 
-class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+class ViewModelFactory(private val context: Context, private val databaseName: String?) : ViewModelProvider.Factory {
+    constructor(context: Context) : this(context, null)
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass == HomeViewModel::class.java) {
             return providerHomeViewModel() as T
@@ -27,7 +31,11 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
         return BookSearchViewModel(
             BooksRepository(
                 providerApiInterface()
-            )
+            ),
+            Room.databaseBuilder(
+                context,
+                AppDatabase::class.java, databaseName!!
+            ).build()
         )
     }
 

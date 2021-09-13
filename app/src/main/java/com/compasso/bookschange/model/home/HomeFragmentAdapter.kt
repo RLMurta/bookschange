@@ -37,14 +37,11 @@ class HomeFragmentAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BookViewHolder) {
-            if(booksList.size > 0){
+            if (booksList.isNotEmpty()) {
                 holder.setData(booksList[position - 1])
             }
         } else if (holder is AddBookViewHolder) {
-            holder.setData(position)
-        }
-        holder.itemView.setOnClickListener {
-            buttons.onButtonClicked(position, option)
+            holder.setData(buttons, option)
         }
     }
 
@@ -57,7 +54,7 @@ class HomeFragmentAdapter(
     }
 
     interface Buttons {
-        fun onButtonClicked(position: Int, option: Int)
+        fun onButtonClicked(option: Int)
     }
 }
 
@@ -85,7 +82,10 @@ class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 class AddBookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val addButton: ConstraintLayout = itemView.findViewById(R.id.add_book_constraintlayout)
-    fun setData(position: Int) {
-        //Fazer no futuro
+
+    fun setData(buttons: HomeFragmentAdapter.Buttons, option: Int) {
+        addButton.setOnClickListener {
+            buttons.onButtonClicked(option)
+        }
     }
 }

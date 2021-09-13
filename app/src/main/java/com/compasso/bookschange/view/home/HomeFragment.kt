@@ -1,26 +1,28 @@
 package com.compasso.bookschange.view.home
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.room.Room
-import com.compasso.bookschange.R
 import com.compasso.bookschange.databinding.FragmentHomeBinding
+import com.compasso.bookschange.model.Constants.Companion.DETACHMENT_LIST_DATABASE
+import com.compasso.bookschange.model.Constants.Companion.DETACHMENT_LIST_OPTION
+import com.compasso.bookschange.model.Constants.Companion.WISHLIST_DATABASE
+import com.compasso.bookschange.model.Constants.Companion.WISHLIST_OPTION
 import com.compasso.bookschange.model.home.GridSpacingItemDecoration
 import com.compasso.bookschange.model.home.HomeFragmentAdapter
-import com.compasso.bookschange.model.home.bookApi.BooksResponse
 import com.compasso.bookschange.model.room.AppDatabase
 import com.compasso.bookschange.model.room.Book
 import com.compasso.bookschange.viewModel.ViewModelFactory
 import com.compasso.bookschange.viewModel.home.HomeViewModel
-import com.compasso.bookschange.viewModel.home.bookSearch.BookSearchViewModel
-import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     private var _binding: FragmentHomeBinding? = null
@@ -40,6 +42,20 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
 
     override fun onResume() {
         super.onResume()
+        addSpacingToRecyclerView()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        isPermissionAccepted()
+        instantiateVariables()
+        observatory()
+
+        viewModel.fetchMyBooks(wishListDb, WISHLIST_OPTION)
+        viewModel.fetchMyBooks(detachmentListDb, DETACHMENT_LIST_OPTION)
+    }
+
+    private fun addSpacingToRecyclerView() {
         binding.wishlistRecyclerView.addItemDecoration(
             GridSpacingItemDecoration(
                 3,
@@ -57,9 +73,24 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun isPermissionAccepted() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                (requireContext()),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                101
+            )
+        }
+    }
 
+    private fun instantiateVariables() {
         viewModel = ViewModelProvider(
             this,
             ViewModelFactory(requireContext())
@@ -67,42 +98,39 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
 
         wishListDb = Room.databaseBuilder(
             requireContext(),
-            AppDatabase::class.java, "whishlist_books_database"
+            AppDatabase::class.java, WISHLIST_DATABASE
         ).build()
         detachmentListDb = Room.databaseBuilder(
             requireContext(),
-            AppDatabase::class.java, "detachment_books_database"
+            AppDatabase::class.java, DETACHMENT_LIST_DATABASE
         ).build()
+    }
 
-        viewModel.fetchMyBooks(wishListDb, 0)
-        viewModel.fetchMyBooks(detachmentListDb, 1)
-
+    private fun observatory() {
         viewModel.myBookWhishlist.observe(viewLifecycleOwner, { books ->
-            bindingRecyclerViewAtributes(books, 0)
+            bindingRecyclerViewAtributes(books, WISHLIST_OPTION)
         })
 
         viewModel.myBookDetachmentlist.observe(viewLifecycleOwner, { books ->
-            bindingRecyclerViewAtributes(books, 1)
+            bindingRecyclerViewAtributes(books, DETACHMENT_LIST_OPTION)
         })
     }
 
-    override fun onButtonClicked(position: Int, option: Int) {
-        if (position == 0) {
+
+    override fun onButtonClicked(option: Int) {
             val databaseName: String
             when (option) {
                 0 -> {
-                    databaseName = "whishlist_books_database"
+                    databaseName = WISHLIST_DATABASE
                 }
                 else -> {
-                    databaseName = "detachment_books_database"
+                    databaseName = DETACHMENT_LIST_DATABASE
                 }
             }
             val action =
                 HomeFragmentDirections.actionHomeFragmentToBookSearchFragment(databaseName)
             view?.findNavController()?.navigate(action)
-        }
     }
-
 
     private fun bindingRecyclerViewAtributes(books: List<Book>, option: Int) {
         when (option) {

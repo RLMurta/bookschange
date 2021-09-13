@@ -26,7 +26,6 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
     private val binding get() = _binding!!
     private lateinit var viewModel: BookSearchViewModel
     private lateinit var booksList: List<BooksResponse>
-    private lateinit var db: AppDatabase
     val args: BookSearchFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -37,41 +36,15 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
         return binding.root
     }
 
-    override fun onButtonClicked(position: Int) {
-        lifecycleScope.launch {
-            try {
-                db.booksDao().insertAll(
-                    Book(
-                        booksList[position].volumeInfo.title,
-                        booksList[position].volumeInfo.imageLinks.thumbnail
-                    )
-                )
-            } catch (e: NullPointerException) {
-                db.booksDao().insertAll(
-                    Book(
-                        booksList[position].volumeInfo.title,
-                        null
-                    )
-                )
-            }
-        }
-        requireActivity().onBackPressed()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory(requireContext())
+            ViewModelFactory(requireContext(), args.receiveDatabaseName)
         ).get(BookSearchViewModel::class.java)
 
         setButtons()
-
-        db = Room.databaseBuilder(
-            requireContext(),
-            AppDatabase::class.java, args.receiveDatabaseName
-        ).build()
 
         viewModel.booksList.observe(viewLifecycleOwner, { list ->
             booksList = list
@@ -100,5 +73,20 @@ class BookSearchFragment : Fragment(), BookSearchActivityAdapter.Buttons {
         binding.confirmFloatingActionButton.setOnClickListener {
             viewModel.onConfirmButtonClicked(binding.editText.text.toString())
         }
+    }
+
+    override fun onButtonClicked(position: Int) {
+        var thumbnailLink: String?
+        try {
+            thumbnailLink = booksList[position].volumeInfo.imageLinks.thumbnail
+        } catch (e: NullPointerException) {
+            thumbnailLink = null
+        }
+        viewModel.insertBookIntoDb(
+            booksList[position].volumeInfo.title,
+            thumbnailLink
+        )
+
+        requireActivity().onBackPressed()
     }
 }
