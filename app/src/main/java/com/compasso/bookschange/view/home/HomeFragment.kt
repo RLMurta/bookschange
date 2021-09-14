@@ -33,7 +33,6 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     private lateinit var detachmentListDb: AppDatabase
     private lateinit var loadingDialog: LoadingDialog
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +52,7 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
         isPermissionAccepted()
         instantiateVariables()
         observatory()
+
         viewModel.fetchMyBooks(wishListDb, WISHLIST_OPTION)
         viewModel.fetchMyBooks(detachmentListDb, DETACHMENT_LIST_OPTION)
     }
@@ -109,7 +109,7 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     }
 
     private fun observatory() {
-        viewModel.myBookWhishlist.observe(viewLifecycleOwner, { books ->
+        viewModel.myBookWishlist.observe(viewLifecycleOwner, { books ->
             bindingRecyclerViewAtributes(books, WISHLIST_OPTION)
         })
 
@@ -118,7 +118,7 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
         })
 
         viewModel.startLoading.observe(viewLifecycleOwner, {
-                loadingDialog.startLoadingDialog(requireActivity())
+            loadingDialog.startLoadingDialog(requireActivity())
         })
 
         viewModel.stopLoading.observe(viewLifecycleOwner, {
@@ -127,32 +127,45 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     }
 
     private fun bindingRecyclerViewAtributes(books: List<Book>, option: Int) {
+        val adapter = HomeFragmentAdapter(books, this, option)
         when (option) {
-            0 -> {
+            WISHLIST_OPTION -> {
                 binding.wishlistRecyclerView.layoutManager = GridLayoutManager(context, 3)
-                binding.wishlistRecyclerView.adapter =
-                    HomeFragmentAdapter(books, this, WISHLIST_OPTION)
+                binding.wishlistRecyclerView.adapter = adapter
             }
-            1 -> {
+            DETACHMENT_LIST_OPTION -> {
                 binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
-                binding.detachmentRecyclerView.adapter =
-                    HomeFragmentAdapter(books, this, DETACHMENT_LIST_OPTION)
+                binding.detachmentRecyclerView.adapter = adapter
+
             }
         }
     }
 
     override fun onButtonClicked(listOption: Int) {
-        val databaseName: String
-        when (listOption) {
-            0 -> {
-                databaseName = WISHLIST_DATABASE
-            }
-            else -> {
-                databaseName = DETACHMENT_LIST_DATABASE
-            }
-        }
+        val databaseName = getDatabaseName(listOption)
         val action =
             HomeFragmentDirections.actionHomeFragmentToBookSearchFragment(databaseName)
         view?.findNavController()?.navigate(action)
+    }
+
+    override fun onRemoveBookButtonClicked(listOption: Int, position: Int) {
+        viewModel.removeBook(
+            Room.databaseBuilder(
+                requireContext(),
+                AppDatabase::class.java, getDatabaseName(listOption)
+            ).build(),
+            listOption, position
+        )
+    }
+
+    private fun getDatabaseName(listOption: Int): String {
+        when (listOption) {
+            WISHLIST_OPTION -> {
+                return WISHLIST_DATABASE
+            }
+            else -> {
+                return DETACHMENT_LIST_DATABASE
+            }
+        }
     }
 }
