@@ -136,12 +136,11 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
             DETACHMENT_LIST_OPTION -> {
                 binding.detachmentRecyclerView.layoutManager = GridLayoutManager(context, 3)
                 binding.detachmentRecyclerView.adapter = adapter
-
             }
         }
     }
 
-    override fun onButtonClicked(listOption: Int) {
+    override fun onAddBookButtonClicked(listOption: Int) {
         val databaseName = getDatabaseName(listOption)
         val action =
             HomeFragmentDirections.actionHomeFragmentToBookSearchFragment(databaseName)

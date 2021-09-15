@@ -1,6 +1,5 @@
 package com.compasso.bookschange.model.home
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -59,7 +58,7 @@ class HomeFragmentAdapter(
     }
 
     interface Buttons {
-        fun onButtonClicked(listOption: Int)
+        fun onAddBookButtonClicked(listOption: Int)
         fun onRemoveBookButtonClicked(listOption: Int, position: Int)
     }
 
@@ -111,7 +110,7 @@ class HomeFragmentAdapter(
 
         fun setData(buttons: HomeFragmentAdapter.Buttons, option: Int) {
             addButton.setOnClickListener {
-                buttons.onButtonClicked(option)
+                buttons.onAddBookButtonClicked(option)
             }
         }
     }
