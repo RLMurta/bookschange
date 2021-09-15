@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
-import com.compasso.bookschange.model.home.bookApi.ApiInterface
-import com.compasso.bookschange.model.home.bookApi.BooksRepository
+import com.compasso.bookschange.model.main.home.bookApi.ApiInterface
+import com.compasso.bookschange.model.main.home.bookApi.BooksRepository
 import com.compasso.bookschange.model.room.AppDatabase
-import com.compasso.bookschange.viewModel.home.HomeViewModel
-import com.compasso.bookschange.viewModel.home.bookSearch.BookSearchViewModel
+import com.compasso.bookschange.viewModel.main.home.HomeViewModel
+import com.compasso.bookschange.viewModel.main.home.bookSearch.BookSearchViewModel
 
 class ViewModelFactory(private val context: Context, private val databaseName: String?) : ViewModelProvider.Factory {
     constructor(context: Context) : this(context, null)
