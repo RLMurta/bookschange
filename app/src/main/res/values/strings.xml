@@ -10,4 +10,5 @@
     <string name="name_of_the_book_holder">Name of the Book</string>
     <string name="confirm">Confirmar</string>
     <string name="Loading">Carregando...</string>
+    <string name="remove_book">Remover Livro</string>
 </resources>
