@@ -49,7 +49,6 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadingDialog = LoadingDialog()
-        isPermissionAccepted()
         instantiateVariables()
         observatory()
 
@@ -73,23 +72,6 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
                 true
             )
         )
-    }
-
-    private fun isPermissionAccepted() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                (requireContext()),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                101
-            )
-        }
     }
 
     private fun instantiateVariables() {

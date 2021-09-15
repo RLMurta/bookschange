@@ -16,26 +16,28 @@
         android:theme="@style/Theme.Bookschange"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity
-            android:name=".view.intro.IntroActivity"
-            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".view.main.MainActivity"
+            android:name=".view.intro.IntroActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            tools:targetApi="m">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.main.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
+            tools:targetApi="m"/>
     </application>
 
 </manifest>
