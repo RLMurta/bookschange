@@ -10,4 +10,4 @@
     map:uiCompass="true"
     map:uiZoomControls="true"
     map:uiRotateGestures="true"
-    tools:context=".view.maps.MapsFragment" />
+    tools:context=".view.main.maps.MapsFragment" />
