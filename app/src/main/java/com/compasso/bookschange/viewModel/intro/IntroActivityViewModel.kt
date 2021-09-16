@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class IntroActivityViewModel: ViewModel() {
-    private val _isAccessLocationPermissionAccepted = MutableLiveData<Boolean>(false)
-    val isAccessLocationPermissionAccepted: LiveData<Boolean> = _isAccessLocationPermissionAccepted
+    private val _isAccessLocationPermissionAccepted = MutableLiveData<Unit>()
+    val isAccessLocationPermissionAccepted: LiveData<Unit> = _isAccessLocationPermissionAccepted
 
     fun setLocationPermissionStatus() {
-        _isAccessLocationPermissionAccepted.postValue(true)
+        _isAccessLocationPermissionAccepted.postValue(Unit)
     }
 }

@@ -27,11 +27,7 @@ class IntroActivity : AppCompatActivity() {
 
         isAccessLocationPermissionAccepted()
         viewModel.isAccessLocationPermissionAccepted.observe(this, {
-            if(it) {
-                goToMain()
-            } else {
-                isAccessLocationPermissionAccepted()
-            }
+            goToMain()
         })
     }
 
@@ -48,7 +44,6 @@ class IntroActivity : AppCompatActivity() {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 101
             )
-            isAccessLocationPermissionAccepted()
         } else {
             viewModel.setLocationPermissionStatus()
         }
@@ -58,5 +53,18 @@ class IntroActivity : AppCompatActivity() {
         Handler().postDelayed(Runnable {
             startActivity(Intent(this, MainActivity::class.java))
         }, 2000)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode) {
+            101 -> {
+                viewModel.setLocationPermissionStatus()
+            }
+        }
     }
 }
