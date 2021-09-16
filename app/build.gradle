@@ -87,4 +87,7 @@ dependencies {
 
     //Corroutines implementation
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2-native-mt'
+
+    //Authentication implementation
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 }

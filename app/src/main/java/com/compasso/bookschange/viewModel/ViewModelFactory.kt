@@ -7,7 +7,7 @@ import androidx.room.Room
 import com.compasso.bookschange.model.main.home.bookApi.ApiInterface
 import com.compasso.bookschange.model.main.home.bookApi.BooksRepository
 import com.compasso.bookschange.model.room.AppDatabase
-import com.compasso.bookschange.viewModel.intro.IntroActivityViewModel
+import com.compasso.bookschange.viewModel.intro.SplashViewModel
 import com.compasso.bookschange.viewModel.main.home.HomeViewModel
 import com.compasso.bookschange.viewModel.main.home.bookSearch.BookSearchViewModel
 
@@ -19,8 +19,8 @@ class ViewModelFactory(private val context: Context, private val databaseName: S
             return providerHomeViewModel() as T
         } else if(modelClass == BookSearchViewModel::class.java) {
             return providerBookSearchViewModel() as T
-        } else if(modelClass == IntroActivityViewModel::class.java) {
-            return providerIntroActivityViewModel() as T
+        } else if(modelClass == SplashViewModel::class.java) {
+            return providerSplashViewModel() as T
         } else {
             throw Exception("View Model não definido")
         }
@@ -42,8 +42,8 @@ class ViewModelFactory(private val context: Context, private val databaseName: S
         )
     }
 
-    private fun providerIntroActivityViewModel() : IntroActivityViewModel {
-        return IntroActivityViewModel()
+    private fun providerSplashViewModel() : SplashViewModel {
+        return SplashViewModel()
     }
 
     private fun providerApiInterface(): ApiInterface {

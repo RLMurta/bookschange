@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class IntroActivityViewModel: ViewModel() {
+class SplashViewModel: ViewModel() {
     private val _isAccessLocationPermissionAccepted = MutableLiveData<Unit>()
     val isAccessLocationPermissionAccepted: LiveData<Unit> = _isAccessLocationPermissionAccepted
 

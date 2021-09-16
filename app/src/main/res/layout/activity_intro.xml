@@ -7,27 +7,16 @@
     tools:context=".view.intro.IntroActivity"
     android:background="@color/greyish_white">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:src="@drawable/book_cover"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/app_name_in_caps"
-        android:textColor="@color/dark_blue"
-        android:textSize="28sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        app:navGraph="@navigation/intro_nav_graph"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
