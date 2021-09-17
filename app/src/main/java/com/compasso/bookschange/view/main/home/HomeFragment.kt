@@ -1,17 +1,16 @@
 package com.compasso.bookschange.view.main.home
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.room.Room
+import com.compasso.bookschange.R
 import com.compasso.bookschange.databinding.FragmentHomeBinding
 import com.compasso.bookschange.model.Constants.Companion.DETACHMENT_LIST_DATABASE
 import com.compasso.bookschange.model.Constants.Companion.DETACHMENT_LIST_OPTION
@@ -51,6 +50,16 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.Buttons {
         loadingDialog = LoadingDialog()
         instantiateVariables()
         observatory()
+
+        binding.materialToolbar.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.bt_profile -> {
+                    Toast.makeText(requireContext(), "Ainda não Implementado", Toast.LENGTH_LONG).show()
+                    true
+                }
+                else -> false
+            }
+        }
 
         viewModel.fetchMyBooks(wishListDb, WISHLIST_OPTION)
         viewModel.fetchMyBooks(detachmentListDb, DETACHMENT_LIST_OPTION)

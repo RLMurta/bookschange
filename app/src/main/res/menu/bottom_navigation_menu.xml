@@ -14,9 +14,9 @@
         android:title="@string/map"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/chat_icon"
-        android:icon="@drawable/ic_baseline_chat_24"
-        android:title="@string/chat"
-        app:showAsAction="ifRoom" />
+<!--    <item-->
+<!--        android:id="@+id/chat_icon"-->
+<!--        android:icon="@drawable/ic_baseline_chat_24"-->
+<!--        android:title="@string/chat"-->
+<!--        app:showAsAction="ifRoom" />-->
 </menu>
